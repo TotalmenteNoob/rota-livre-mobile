@@ -1,0 +1,89 @@
+############################################################################################################
+Comandos importantes para React Native
+############################################################################################################
+
+Para criar uma aplicação mobile com app:
+	$ npx create-expo-app nome-projeto
+
+Para rodar o projeto:
+	$ npx expo start
+
+Para abrir o projeto no celular:
+	- Abrir a câmera e escanear o QrCode e o app Expo irá abrir o projeto;
+
+Para exibir na web:
+	- Para corrigir bugs da versão do expo:
+		$ npx expo install react-native-web@~0.19.6
+		$ npx expo install react-dom@18.2.0
+		$ npx expo install @expo/webpack-config
+	-Para corrigir erro antes de rodar na web:
+		- app.json
+			"web": {
+		      		"favicon": "./assets/favicon.png",
+		      		"bundler": "metro"
+		    	}
+
+Para instalar o Paper:
+	$ npm install react-native-paper
+	$ npm install react-native-safe-area-context
+
+Para instalar o Navigator para navegar entre as páginas: 
+	$ npm install @react-navigation/native @react-navigation/native-stack
+	$ npx expo install react-native-screens react-native-safe-area-context
+
+Para instalar o Axios:
+	$ npm i axios
+
+Para imagens
+	http://image.tmdb.org/t/p/w500/
+	https://api.themoviedb.org/3/movie/popular?language=pt-BR&api_key=
+
+Vai precisar toda aula:
+  	<NavigationContainer>
+        	<Stack.Navigator>
+          		<Stack.Screen name="profile" component={ProfileScreen}/>
+        	</Stack.Navigator>
+      	</NavigationContainer>
+
+Para trazer os dados da API: useState e useEffect
+	const [filmes, setFilmes] = useState({})
+
+    	useEffect(()=> {
+        	apiFilmes.get('/movie/popular').then(resultado => setFilmes(resultado.data.results))
+    	})
+
+Para navegar entre as páginas:
+	1 - colocar o (navigation)
+		const FilmesPopulares = ({navigation}) => {
+	2 - Chamar o navigation.push
+		onPress={()=>navigation.push('filmes-detalhes',{id: item.id})}
+
+Para instalar o bottom navigator do Navigator
+	$ npm install @react-navigation/material-bottom-tabs react-native-paper react-native-vector-icons
+
+Para quando precisar do stack screen do navigator
+
+	const Stack = createNativeStackNavigator(); //essa linha fica acima do export
+
+	<NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="filmes-populares" component={FilmesPopulares} options={{title: "Filmes Populares"}} />
+            <Stack.Screen name="filmes-detalhes" component={FilmesDetalhes} options={{title: "Filmes Detalhes"}} />
+            <Stack.Screen name="atores-detalhes" component={AtoresDetalhes} options={{title: "Atores Detalhes"}} />
+          </Stack.Navigator>
+        </NavigationContainer>
+
+Para instalar o async storage
+	$ npm install @react-native-async-storage/async-storage
+
+Para instalar o Formik
+	$ npm i formik
+
+Para instalar o Yup
+	$ npm i yup
+
+Para importar manualmente o Yup
+	import * as Yup from 'yup';
+
+Para instalar o Remask
+	$ npm i remask
