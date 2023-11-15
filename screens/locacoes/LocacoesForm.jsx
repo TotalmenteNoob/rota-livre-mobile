@@ -5,6 +5,7 @@ import { Button, Text, TextInput } from 'react-native-paper'
 import locacaoValidator from '../../validators/locacaoValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { mask } from 'remask'
 
 const LocacoesForm = ({ navigation, route }) => {
 
@@ -48,14 +49,14 @@ const LocacoesForm = ({ navigation, route }) => {
           validationSchema={locacaoValidator}
           onSubmit={values => salvar(values)}
         >
-          {({ values, handleChange, handleSubmit, errors, touched }) => (
+          {({ values, handleChange, handleSubmit, errors, touched, setFieldValue }) => (
             <View>
               <TextInput
                 style={{ margin: 10 }}
                 mode='outlined'
                 label='Custo'
                 value={values.custo}
-                onChangeText={handleChange('custo')}
+                onChangeText={(value) => { setFieldValue('custo', mask(value, '99999.99')) }}
               />
               <Validacao errors={errors.custo} touched={touched.custo} />
               <TextInput
@@ -64,7 +65,7 @@ const LocacoesForm = ({ navigation, route }) => {
                 label='Início da locação'
                 keyboardType='decimal-pad'
                 value={values.inicioLocacao}
-                onChangeText={handleChange('inicioLocacao')}
+                onChangeText={(value) => { setFieldValue('inicioLocacao', mask(value, '99/99/9999')) }}
               />
               <Validacao errors={errors.inicioLocacao} touched={touched.inicioLocacao} />
               <TextInput
@@ -73,7 +74,7 @@ const LocacoesForm = ({ navigation, route }) => {
                 label='Fim da locação'
                 keyboardType='decimal-pad'
                 value={values.fimLocacao}
-                onChangeText={handleChange('fimLocacao')}
+                onChangeText={(value) => { setFieldValue('fimLocacao', mask(value, '99/99/9999')) }}
               />
               <Validacao errors={errors.fimLocacao} touched={touched.fimLocacao} />
 

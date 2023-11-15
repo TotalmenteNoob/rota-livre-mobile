@@ -51,6 +51,7 @@ const Locadoras = ({ navigation }) => {
               <Text variant="bodyMedium">Email: {item.email}</Text>
               <Text variant="bodyMedium">Telefone: {item.telefone}</Text>
               <Text variant="bodyMedium">CEP: {item.cep}</Text>
+              <Text variant="bodyMedium">UF: {item.uf}</Text>
               <Text variant="bodyMedium">Logradouro: {item.logradouro}</Text>
               <Text variant="bodyMedium">Complemento: {item.complemento}</Text>
               <Text variant="bodyMedium">Número: {item.numero}</Text>

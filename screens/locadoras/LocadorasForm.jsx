@@ -5,12 +5,21 @@ import { Button, Text, TextInput } from 'react-native-paper'
 import locadoraValidator from '../../validators/locadoraValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Picker } from '@react-native-picker/picker'
+import { mask } from 'remask'
 
 const LocadorasForm = ({ navigation, route }) => {
+
+  const UFs = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
+    'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN',
+    'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+  ];
 
   let locadora = {
     email: '',
     telefone: '',
+    uf: '',
     cep: '',
     logradouro: '',
     complemento: '',
@@ -52,7 +61,7 @@ const LocadorasForm = ({ navigation, route }) => {
           validationSchema={locadoraValidator}
           onSubmit={values => salvar(values)}
         >
-          {({ values, handleChange, handleSubmit, errors, touched }) => (
+          {({ values, handleChange, handleSubmit, errors, touched, setFieldValue }) => (
             <View>
               <TextInput
                 style={{ margin: 10 }}
@@ -68,18 +77,27 @@ const LocadorasForm = ({ navigation, route }) => {
                 label='Telefone'
                 keyboardType='decimal-pad'
                 value={values.telefone}
-                onChangeText={handleChange('telefone')}
+                onChangeText={(value) => { setFieldValue('telefone', mask(value, '(99) 99999-9999')) }}
               />
-              <Validacao errors={errors.telefone} touched={touched.telefone} />
+
               <TextInput
                 style={{ margin: 10 }}
                 mode='outlined'
                 label='CEP'
                 keyboardType='decimal-pad'
                 value={values.cep}
-                onChangeText={handleChange('cep')}
+                onChangeText={(value) => { setFieldValue('cep', mask(value, '99999-999')) }}
               />
               <Validacao errors={errors.cep} touched={touched.cep} />
+              <Picker
+                selectedValue={values.uf}
+                onValueChange={handleChange('uf')}>
+                <Picker.Item label="Selecione a UF" value="" />
+                {UFs.map((uf) => (
+                  <Picker.Item key={uf} label={uf} value={uf} />
+                ))}
+              </Picker>
+              <Validacao errors={errors.uf} touched={touched.uf} />
               <TextInput
                 style={{ margin: 10 }}
                 mode='outlined'

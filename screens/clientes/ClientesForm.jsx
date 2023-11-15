@@ -5,6 +5,7 @@ import { Button, Text, TextInput } from 'react-native-paper'
 import clienteValidator from '../../validators/clienteValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { mask } from 'remask'
 
 const ClientesForm = ({ navigation, route }) => {
 
@@ -55,7 +56,7 @@ const ClientesForm = ({ navigation, route }) => {
           validationSchema={clienteValidator}
           onSubmit={values => salvar(values)}
         >
-          {({ values, handleChange, handleSubmit, errors, touched }) => (
+          {({ values, handleChange, handleSubmit, errors, touched, setFieldValue }) => (
             <View>
               <TextInput
                 style={{ margin: 10 }}
@@ -71,7 +72,7 @@ const ClientesForm = ({ navigation, route }) => {
                 label='CPF'
                 keyboardType='decimal-pad'
                 value={values.cpf}
-                onChangeText={handleChange('cpf')}
+                onChangeText={(value) => { setFieldValue('cpf', mask(value, '999.999.999-99')) }}
               />
               <Validacao errors={errors.cpf} touched={touched.cpf} />
               <TextInput
@@ -80,7 +81,7 @@ const ClientesForm = ({ navigation, route }) => {
                 label='Data de nascimento'
                 keyboardType='decimal-pad'
                 value={values.dataNascimento}
-                onChangeText={handleChange('dataNascimento')}
+                onChangeText={(value) => { setFieldValue('dataNascimento', mask(value, '99/99/9999')) }}
               />
               <Validacao errors={errors.dataNascimento} touched={touched.dataNascimento} />
               <TextInput
@@ -97,7 +98,7 @@ const ClientesForm = ({ navigation, route }) => {
                 label='Telefone'
                 keyboardType='decimal-pad'
                 value={values.telefone}
-                onChangeText={handleChange('telefone')}
+                onChangeText={(value) => { setFieldValue('telefone', mask(value, '(99) 99999-9999')) }}
               />
               <Validacao errors={errors.telefone} touched={touched.telefone} />
               <TextInput
@@ -106,7 +107,7 @@ const ClientesForm = ({ navigation, route }) => {
                 label='CEP'
                 keyboardType='decimal-pad'
                 value={values.cep}
-                onChangeText={handleChange('cep')}
+                onChangeText={(value) => { setFieldValue('cep', mask(value, '99999-999')) }}
               />
               <Validacao errors={errors.cep} touched={touched.cep} />
               <TextInput

@@ -5,6 +5,8 @@ import { Button, Text, TextInput } from 'react-native-paper'
 import carroValidator from '../../validators/carroValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Picker } from '@react-native-picker/picker'
+import { mask } from 'remask'
 
 const CarrosForm = ({ navigation, route }) => {
 
@@ -96,13 +98,17 @@ const CarrosForm = ({ navigation, route }) => {
                 onChangeText={handleChange('ano')}
               />
               <Validacao errors={errors.ano} touched={touched.ano} />
-              <TextInput
-                style={{ margin: 10 }}
-                mode='outlined'
-                label='Carroceria'
-                value={values.tipoCarro}
-                onChangeText={handleChange('tipoCarro')}
-              />
+              <Picker
+                selectedValue={values.tipoCarro}
+                onValueChange={handleChange('tipoCarro')}>
+                <Picker.Item label="Carroceria" value="" />
+                <Picker.Item label="Hatch" value="Hatch" />
+                <Picker.Item label="Sedan" value="Sedan" />
+                <Picker.Item label="SUV" value="SUV" />
+                <Picker.Item label="Picape" value="Picape" />
+                <Picker.Item label="Perua" value="Perua" />
+                <Picker.Item label="Utilitário" value="Utilitário" />
+              </Picker>
               <Validacao errors={errors.tipoCarro} touched={touched.tipoCarro} />
               <TextInput
                 style={{ margin: 10 }}

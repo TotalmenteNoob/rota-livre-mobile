@@ -5,6 +5,8 @@ import { Button, Text, TextInput } from 'react-native-paper'
 import funcionarioValidator from '../../validators/funcionarioValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Picker } from '@react-native-picker/picker'
+import { mask } from 'remask'
 
 const FuncionariosForm = ({ navigation, route }) => {
 
@@ -58,7 +60,7 @@ const FuncionariosForm = ({ navigation, route }) => {
           validationSchema={funcionarioValidator}
           onSubmit={values => salvar(values)}
         >
-          {({ values, handleChange, handleSubmit, errors, touched }) => (
+          {({ values, handleChange, handleSubmit, errors, touched, setFieldValue }) => (
             <View>
               <TextInput
                 style={{ margin: 10 }}
@@ -74,7 +76,7 @@ const FuncionariosForm = ({ navigation, route }) => {
                 label='CPF'
                 keyboardType='decimal-pad'
                 value={values.cpf}
-                onChangeText={handleChange('cpf')}
+                onChangeText={(value) => { setFieldValue('cpf', mask(value, '999.999.999-99')) }}
               />
               <Validacao errors={errors.cpf} touched={touched.cpf} />
               <TextInput
@@ -86,21 +88,21 @@ const FuncionariosForm = ({ navigation, route }) => {
                 onChangeText={handleChange('matricula')}
               />
               <Validacao errors={errors.matricula} touched={touched.matricula} />
-              <TextInput
-                style={{ margin: 10 }}
-                mode='outlined'
-                label='Cargo'
-                value={values.cargo}
-                onChangeText={handleChange('cargo')}
-              />
+              <Picker
+                selectedValue={values.cargo}
+                onValueChange={handleChange('cargo')}>
+                <Picker.Item label="Cargo" value="" />
+                <Picker.Item label="Gerente" value="Gerente" />
+                <Picker.Item label="Atendente" value="Atendente" />
+                <Picker.Item label="Motorista" value="Motorista" />
+              </Picker>
               <Validacao errors={errors.cargo} touched={touched.cargo} />
               <TextInput
                 style={{ margin: 10 }}
                 mode='outlined'
                 label='Data de nascimento'
-                keyboardType='decimal-pad'
                 value={values.dataNascimento}
-                onChangeText={handleChange('dataNascimento')}
+                onChangeText={(value) => { setFieldValue('dataNascimento', mask(value, '99/99/9999')) }}
               />
               <Validacao errors={errors.dataNascimento} touched={touched.dataNascimento} />
               <TextInput
@@ -117,7 +119,7 @@ const FuncionariosForm = ({ navigation, route }) => {
                 label='Telefone'
                 keyboardType='decimal-pad'
                 value={values.telefone}
-                onChangeText={handleChange('telefone')}
+                onChangeText={(value) => { setFieldValue('telefone', mask(value, '(99) 99999-9999')) }}
               />
               <Validacao errors={errors.telefone} touched={touched.telefone} />
               <TextInput
@@ -134,7 +136,7 @@ const FuncionariosForm = ({ navigation, route }) => {
                 label='CEP'
                 keyboardType='decimal-pad'
                 value={values.cep}
-                onChangeText={handleChange('cep')}
+                onChangeText={(value) => { setFieldValue('cep', mask(value, '99999-999')) }}
               />
               <Validacao errors={errors.cep} touched={touched.cep} />
               <TextInput

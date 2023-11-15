@@ -10,7 +10,7 @@ const LocacoesStack = () => {
     <>
       <Stack.Navigator>
         <Stack.Screen name="locacoes" component={Locacoes} options={{ title: "Locacões" }} />
-        <Stack.Screen name="locacoes-form" component={LocacoesForm} options={{ title: "Cadastro de carro" }} />
+        <Stack.Screen name="locacoes-form" component={LocacoesForm} options={{ title: "Cadastro de locação" }} />
       </Stack.Navigator>
     </>
   )

@@ -48,7 +48,7 @@ const Locacoes = ({ navigation }) => {
         {locacoes.map((item, i) => (
           <Card key={i} mode='outlined' style={{ marginBottom: 10 }}>
             <Card.Content >
-              <Text variant="bodyMedium">Custo: {item.custo}</Text>
+              <Text variant="bodyMedium">Custo: R$ {item.custo}</Text>
               <Text variant="bodyMedium">Início da locação: {item.inicioLocacao}</Text>
               <Text variant="bodyMedium">Fim da locação: {item.fimLocacao}</Text>
             </Card.Content>
