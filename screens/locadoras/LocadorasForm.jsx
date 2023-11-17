@@ -7,6 +7,7 @@ import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Picker } from '@react-native-picker/picker'
 import { mask } from 'remask'
+import axios from 'axios'
 
 const LocadorasForm = ({ navigation, route }) => {
 
@@ -51,6 +52,23 @@ const LocadorasForm = ({ navigation, route }) => {
     })
   }
 
+  const buscarEnderecoPorCEP = async (cep, setFieldValue) => {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = response.data;
+
+      if (!data.erro) {
+        // Preencher os campos de endereço com os dados obtidos
+        setFieldValue('logradouro', data.logradouro || '');
+        setFieldValue('complemento', data.complemento || '');
+        setFieldValue('bairro', data.bairro || '');
+        setFieldValue('uf', data.uf || '');
+      }
+    } catch (error) {
+      console.error('Erro ao buscar endereço por CEP:', error);
+    }
+  };
+
   return (
     <>
       <ScrollView style={{ margin: 15 }}>
@@ -79,14 +97,19 @@ const LocadorasForm = ({ navigation, route }) => {
                 value={values.telefone}
                 onChangeText={(value) => { setFieldValue('telefone', mask(value, '(99) 99999-9999')) }}
               />
-
+              <Validacao errors={errors.telefone} touched={touched.telefone} />
               <TextInput
                 style={{ margin: 10 }}
                 mode='outlined'
                 label='CEP'
                 keyboardType='decimal-pad'
                 value={values.cep}
-                onChangeText={(value) => { setFieldValue('cep', mask(value, '99999-999')) }}
+                onChangeText={(value) => {
+                  setFieldValue('cep', mask(value, '99999-999'));
+                  if (value.length === 9) {
+                    buscarEnderecoPorCEP(value, setFieldValue);
+                  }
+                }}
               />
               <Validacao errors={errors.cep} touched={touched.cep} />
               <Picker

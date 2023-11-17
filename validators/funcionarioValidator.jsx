@@ -33,16 +33,20 @@ const funcionarioValidador = Yup.object().shape({
     cargo: Yup.string()
         .required('Campo obrigatório')
         .oneOf(['Gerente', 'Atendente', 'Motorista'], 'Cargo inválido'),
-    dataNascimento: Yup.date()
+    dataNascimento: Yup.string()
         .required('Campo obrigatório')
-        .transform((value, originalValue) => {
-            if (originalValue) {
-                const [day, month, year] = originalValue.split('/');
-                return new Date(`${year}-${month}-${day}`);
+        .test('idade', 'O funcionário deve ter ao menos 16 anos.', function (value) {
+            const today = new Date();
+            const [day, month, year] = value.split("/");
+            const birthDate = new Date(year, month - 1, day);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
             }
-            return value;
+            return age >= 16;
         })
-        .typeError('Por favor, insira uma data no formato DD/MM/AAAA.'),
+
 });
 
 export default funcionarioValidador;

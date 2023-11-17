@@ -1,5 +1,2 @@
-falta valitators de locacao, funcionario e cliente por causa das datas
 falta componentizar
-falta api viacep
-falta api receitafederal
 falta melhorar o design 

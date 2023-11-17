@@ -56,7 +56,7 @@ const LocacoesForm = ({ navigation, route }) => {
                 mode='outlined'
                 label='Custo'
                 value={values.custo}
-                onChangeText={(value) => { setFieldValue('custo', mask(value, '99999.99')) }}
+                onChangeText={handleChange('custo')}
               />
               <Validacao errors={errors.custo} touched={touched.custo} />
               <TextInput

@@ -22,16 +22,19 @@ const funcionarioValidador = Yup.object().shape({
     numero: Yup.number()
         .typeError('Por favor, insira apenas números no campo de número.'),
     bairro: Yup.string(),
-    dataNascimento: Yup.date()
+    dataNascimento: Yup.string()
         .required('Campo obrigatório')
-        .transform((value, originalValue) => {
-            if (originalValue) {
-                const [day, month, year] = originalValue.split('/');
-                return new Date(`${year}-${month}-${day}`);
+        .test('idade', 'O cliente deve ter ao menos 18 anos.', function (value) {
+            const today = new Date();
+            const [day, month, year] = value.split("/");
+            const birthDate = new Date(year, month - 1, day);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
             }
-            return value;
+            return age >= 18;
         })
-        .typeError('Por favor, insira uma data no formato DD/MM/AAAA.'),
 });
 
 export default funcionarioValidador;

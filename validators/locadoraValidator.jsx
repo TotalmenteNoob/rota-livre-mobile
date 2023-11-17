@@ -6,8 +6,7 @@ const locadoraValidador = Yup.object().shape({
         .email('Deve ser um email válido')
         .required('Campo obrigatório'),
     telefone: Yup.string()
-        .required('Campo obrigatório')
-        .typeError('Por favor, insira apenas números no campo de telefone.'),
+        .required('Campo obrigatório'),
     cep: Yup.string()
         .required('Campo obrigatório')
         .typeError('Por favor, insira apenas números no campo de CEP.'),
