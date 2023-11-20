@@ -7,7 +7,7 @@ import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Picker } from '@react-native-picker/picker'
 import { mask } from 'remask'
-import axios from 'axios'
+import * as ApiService from '../../services/api';
 
 const LocadorasForm = ({ navigation, route }) => {
 
@@ -52,22 +52,6 @@ const LocadorasForm = ({ navigation, route }) => {
     })
   }
 
-  const buscarEnderecoPorCEP = async (cep, setFieldValue) => {
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = response.data;
-
-      if (!data.erro) {
-        // Preencher os campos de endereço com os dados obtidos
-        setFieldValue('logradouro', data.logradouro || '');
-        setFieldValue('complemento', data.complemento || '');
-        setFieldValue('bairro', data.bairro || '');
-        setFieldValue('uf', data.uf || '');
-      }
-    } catch (error) {
-      console.error('Erro ao buscar endereço por CEP:', error);
-    }
-  };
 
   return (
     <>
@@ -107,7 +91,7 @@ const LocadorasForm = ({ navigation, route }) => {
                 onChangeText={(value) => {
                   setFieldValue('cep', mask(value, '99999-999'));
                   if (value.length === 9) {
-                    buscarEnderecoPorCEP(value, setFieldValue);
+                    ApiService.buscarEnderecoPorCEP(value, setFieldValue);
                   }
                 }}
               />
