@@ -6,8 +6,7 @@ import clienteValidator from '../../validators/clienteValidator'
 import Validacao from '../../components/Validacao'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { mask } from 'remask'
-import axios from 'axios'
-import config from '../../config'
+import * as ApiService from '../../services/api';
 
 const ClientesForm = ({ navigation, route }) => {
 
@@ -49,41 +48,8 @@ const ClientesForm = ({ navigation, route }) => {
     })
   }
 
-  const buscarEnderecoPorCEP = async (cep, setFieldValue) => {
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = response.data;
-
-      if (!data.erro) {
-        // Preencher os campos de endereço com os dados obtidos
-        setFieldValue('logradouro', data.logradouro || '');
-        setFieldValue('complemento', data.complemento || '');
-        setFieldValue('bairro', data.bairro || '');
-        setFieldValue('uf', data.uf || '');
-      }
-    } catch (error) {
-      console.error('Erro ao buscar endereço por CEP:', error);
-    }
-  };
 
   const [cpfValidationStatus, setCPFValidationStatus] = useState(null);
-
-  const validarCPF = async (cpf) => {
-    try {
-      const response = await axios.get(`https://api.invertexto.com/v1/validator?token=${config.TOKEN_INVERTEXTO}&value=${cpf}&type=cpf`);
-      console.log('Resposta da API:', response.data);
-      const isValid = response.data.valid;
-
-      setCPFValidationStatus(isValid ? null : 'CPF inválido');
-
-      return isValid;
-    } catch (error) {
-      console.error('Erro ao validar CPF:', error);
-      setCPFValidationStatus('Erro ao validar CPF');
-      return false;
-    }
-  };
-
 
   return (
     <>
@@ -114,13 +80,15 @@ const ClientesForm = ({ navigation, route }) => {
                 onChangeText={async (value) => {
                   setFieldValue('cpf', mask(value, '999.999.999-99'));
                   if (value.length === 14) {
-                    const cpfValido = await validarCPF(value);
-                    if (!cpfValido) {
+                    const { isValid, message } = await ApiService.validarCPF(value);
+                    if (!isValid) {
+                      setCPFValidationStatus(message);
+                    } else {
+                      setCPFValidationStatus(null);
                     }
                   }
                 }}
               />
-              {/* Exibe a mensagem de erro do CPF no componente Validacao */}
               <Validacao errors={cpfValidationStatus ? [cpfValidationStatus] : []} touched={{ cpf: touched.cpf }} />
               <TextInput
                 style={{ margin: 10 }}
@@ -157,8 +125,7 @@ const ClientesForm = ({ navigation, route }) => {
                 onChangeText={(value) => {
                   setFieldValue('cep', mask(value, '99999-999'));
                   if (value.length === 9) {
-                    // Passar setFieldValue para a função buscarEnderecoPorCEP
-                    buscarEnderecoPorCEP(value, setFieldValue);
+                    ApiService.buscarEnderecoPorCEP(value, setFieldValue);
                   }
                 }}
               />

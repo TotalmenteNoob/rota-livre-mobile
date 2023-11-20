@@ -1,2 +1,3 @@
+tentar jogar api's para pasta services
 falta componentizar
 falta melhorar o design 
