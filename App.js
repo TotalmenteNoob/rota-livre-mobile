@@ -17,13 +17,18 @@ export default function App() {
     <>
       <PaperProvider>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator
+            initialRouteName="Home"
+            activeColor="#FF5733"
+            inactiveColor="white"
+            barStyle={{ backgroundColor: '#2ECC71' }}
+          >
             <Tab.Screen
               name="Carros"
               component={CarrosStack}
               options={{
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="car" size={26}/>
+                tabBarIcon: ({ focused }) => (
+                  <MaterialCommunityIcons name="car" color={focused ? "#FF5733" : "white"} size={26} />
                 ),
               }}
             />
@@ -31,8 +36,8 @@ export default function App() {
               name="Clientes"
               component={ClientesStack}
               options={{
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="human-handsdown" size={26}/>
+                tabBarIcon: ({ focused }) => (
+                  <MaterialCommunityIcons name="human-handsdown" color={focused ? "#FF5733" : "white"} size={26} />
                 ),
               }}
             />
@@ -40,8 +45,8 @@ export default function App() {
               name="Funcionários"
               component={FuncionariosStack}
               options={{
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="face-agent" size={26}/>
+                tabBarIcon: ({ focused }) => (
+                  <MaterialCommunityIcons name="face-agent" color={focused ? "#FF5733" : "white"} size={26} />
                 ),
               }}
             />
@@ -49,8 +54,8 @@ export default function App() {
               name="Locações"
               component={LocacoesStack}
               options={{
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="clipboard-outline" size={26}/>
+                tabBarIcon: ({ focused }) => (
+                  <MaterialCommunityIcons name="clipboard-outline" color={focused ? "#FF5733" : "white"} size={26} />
                 ),
               }}
             />
@@ -58,8 +63,8 @@ export default function App() {
               name="Locadoras"
               component={LocadorasStack}
               options={{
-                tabBarIcon: () => (
-                  <MaterialCommunityIcons name="store" size={26}/>
+                tabBarIcon: ({ focused }) => (
+                  <MaterialCommunityIcons name="store" color={focused ? "#FF5733" : "white"} size={26} />
                 ),
               }}
             />

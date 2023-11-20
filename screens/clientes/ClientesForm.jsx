@@ -54,7 +54,7 @@ const ClientesForm = ({ navigation, route }) => {
   return (
     <>
       <ScrollView style={{ margin: 15 }}>
-        <Text>preencha as informações abaixo para cadastrar um novo carro</Text>
+        <Text>preencha as informações abaixo para cadastrar um novo cliente</Text>
 
         <Formik
           initialValues={cliente}

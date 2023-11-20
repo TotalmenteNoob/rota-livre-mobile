@@ -80,8 +80,9 @@ const Locadoras = ({ navigation }) => {
       <FAB
         mode='elevated'
         icon="plus"
-        style={{ position: 'absolute', right: 10, bottom: 10 }}
+        style={{ position: 'absolute', right: 10, bottom: 10, backgroundColor: "#2ECC71" }}
         onPress={() => navigation.push('locadoras-form')}
+        color='white'
       />
 
     </>

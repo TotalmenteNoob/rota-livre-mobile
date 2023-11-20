@@ -56,7 +56,7 @@ const LocadorasForm = ({ navigation, route }) => {
   return (
     <>
       <ScrollView style={{ margin: 15 }}>
-        <Text>preencha as informações abaixo para cadastrar um novo carro</Text>
+        <Text>preencha as informações abaixo para cadastrar uma novo locadora</Text>
 
         <Formik
           initialValues={locadora}

@@ -57,7 +57,7 @@ const FuncionariosForm = ({ navigation, route }) => {
   return (
     <>
       <ScrollView style={{ margin: 15 }}>
-        <Text>preencha as informações abaixo para cadastrar um novo carro</Text>
+        <Text>preencha as informações abaixo para cadastrar um novo funcionário</Text>
 
         <Formik
           initialValues={funcionario}
